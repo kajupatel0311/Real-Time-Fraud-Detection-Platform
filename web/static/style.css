@@ -1,0 +1,240 @@
+/* 
+   FraudSentinel - Production Redesign
+   Modern Fintech Aesthetic - Inspired by High-End Analytics Dashboards
+*/
+
+:root {
+  --primary: #0a2540;
+  --accent: #635bff;
+  --accent-soft: rgba(99, 91, 255, 0.1);
+  
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-sidebar: #ffffff;
+  
+  --border: #f1f5f9;
+  --text-main: #475569;
+  --text-dark: #0f172a;
+  --text-muted: #94a3b8;
+  
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  
+  --radius: 12px;
+  --radius-lg: 20px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-hover: 0 10px 15px -3px rgba(0,0,0,0.04), 0 4px 6px -2px rgba(0,0,0,0.02);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Layout */
+.app-wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 280px;
+  background-color: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 32px 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.sidebar-logo {
+  padding: 0 32px 32px;
+}
+
+.brand {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-dark);
+  letter-spacing: -1px;
+}
+
+.brand span { color: var(--accent); }
+
+.nav-section {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  padding: 24px 32px 12px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 32px;
+  color: var(--text-main);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border-right: 3px solid transparent;
+}
+
+.nav-item:hover {
+  background-color: var(--bg-main);
+  color: var(--accent);
+}
+
+.nav-item.active {
+  background-color: var(--accent-soft);
+  color: var(--accent);
+  border-right-color: var(--accent);
+}
+
+/* Main */
+.main { flex: 1; min-width: 0; }
+
+.topbar {
+  background-color: rgba(255,255,255,0.8);
+  backdrop-filter: blur(8px);
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.topbar-title { font-weight: 700; color: var(--text-dark); font-size: 18px; }
+
+.content { padding: 40px; max-width: 1400px; margin: 0 auto; }
+
+.page-header { margin-bottom: 40px; }
+.greeting { color: var(--text-muted); font-size: 14px; font-weight: 500; }
+.page-title { font-size: 32px; font-weight: 800; color: var(--text-dark); letter-spacing: -0.5px; }
+
+/* Cards & Widgets */
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover { box-shadow: var(--shadow-hover); }
+
+.grid-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.stat-card { position: relative; overflow: hidden; }
+.stat-card::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 60px; height: 60px;
+  background: var(--accent-soft);
+  border-radius: 0 0 0 100%;
+  opacity: 0.5;
+}
+
+.stat-val { font-size: 32px; font-weight: 800; color: var(--text-dark); display: block; }
+.stat-lbl { color: var(--text-muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+
+/* Chat & Analysis */
+.grid-main {
+  display: grid;
+  grid-template-columns: 1.8fr 1.2fr;
+  gap: 32px;
+}
+
+.chat-container {
+  height: 500px;
+  background-color: var(--bg-main);
+  border-radius: var(--radius);
+  padding: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.message { padding: 14px 20px; border-radius: 16px; max-width: 80%; font-weight: 500; font-size: 14px; }
+.bot-message { background: white; border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+.user-message { background: var(--accent); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+
+.chat-input-wrap { display: flex; gap: 12px; }
+#chat-input {
+  flex: 1;
+  padding: 16px 24px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: white;
+  font-family: inherit;
+  font-weight: 500;
+}
+
+.btn-chat {
+  background: var(--primary);
+  color: white;
+  padding: 0 32px;
+  border-radius: var(--radius);
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-chat:hover { background: var(--accent); transform: translateY(-1px); }
+
+/* Visualization */
+.result-display { padding: 40px 0; border-radius: var(--radius); background: linear-gradient(to bottom, var(--bg-main), #fff); margin-bottom: 24px; }
+.prob-circle { font-size: 64px; font-weight: 900; color: var(--text-dark); line-height: 1; }
+
+.risk-level {
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-weight: 800;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.risk-High { background: #fee2e2; color: var(--danger); }
+.risk-Medium { background: #fef3c7; color: var(--warning); }
+.risk-Low { background: #d1fae5; color: var(--success); }
+
+/* Tables */
+.table-card { padding: 0 !important; overflow: hidden; margin-top: 40px; }
+.card-header-table { padding: 28px 32px; border-bottom: 1px solid var(--border); }
+.txn-table { width: 100%; border-collapse: collapse; }
+.txn-table th { background: #fafafa; padding: 16px 32px; text-align: left; font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+.txn-table td { padding: 20px 32px; border-bottom: 1px solid var(--border); font-weight: 500; }
+.txn-table tr:hover { background: var(--bg-main); }
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .grid-stats { grid-template-columns: repeat(2, 1fr); }
+  .grid-main { grid-template-columns: 1fr; }
+}

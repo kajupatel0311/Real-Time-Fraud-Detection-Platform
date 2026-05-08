@@ -1,0 +1,40 @@
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+data/
+!data/.gitkeep
+
+# Models
+# Models should ideally be downloaded from cloud storage in production, 
+# but for this repo we can keep smaller ones or ignore them.
+# Assuming fraud_model.joblib is ignored and downloaded, but for this demo 
+# we might want to keep the small one or exclude the big ones.
+# models/
+# !models/.gitkeep
+
+# Logs and Caches
+*.log
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+
+# Node/Expo
+node_modules/
+.expo/
+npm-debug.log
+yarn-error.log
+
+# Python Virtual Environment
+venv/
+env/
+.venv/
+
+# Render/Vercel
+.vercel/
