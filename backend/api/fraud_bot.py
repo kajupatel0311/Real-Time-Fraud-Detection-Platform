@@ -91,12 +91,20 @@ class FraudBot:
 
     def analyze(self, txn: dict, features: dict, ml_prob: float) -> PredictionResponse:
         """Main entry point for transaction analysis."""
+        from .model_loader import model_loader
+        
         self.total_processed += 1
         amount = float(txn.get("amount", 0))
         
         h_score = self.evaluate_heuristics(txn, features)
-        final_score = (ML_WEIGHT * ml_prob) + (HEURISTIC_WEIGHT * h_score)
         
+        if model_loader.is_loaded:
+            final_score = (ML_WEIGHT * ml_prob) + (HEURISTIC_WEIGHT * h_score)
+            scoring_mode = "Hybrid"
+        else:
+            final_score = h_score  # 100% heuristic weight
+            scoring_mode = "Heuristic-Only"
+            
         if final_score >= RISK_THRESHOLD_HIGH:
             risk_level = "High"
             action = "Restrict transaction"
@@ -117,6 +125,7 @@ class FraudBot:
             final_risk_score=round(final_score, 4),
             fraud_probability=round(final_score, 4),
             confidence_score=int(final_score * 100),
+            scoring_mode=scoring_mode,
             risk_level=risk_level,
             action=action,
             reasons=reasons,

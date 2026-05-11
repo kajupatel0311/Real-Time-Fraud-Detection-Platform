@@ -18,16 +18,20 @@ class ModelLoader:
 
     def load(self):
         if not os.path.exists(self.model_path):
-            logger.warning(f"Model file not found at {self.model_path}. Please run training script.")
+            logger.warning("ML model unavailable — running heuristic-only mode.")
+            self.model_type = "Heuristic-Only"
+            self.is_loaded = False
             return
 
         try:
             self.model = joblib.load(self.model_path)
             self.is_loaded = True
             self.model_type = type(self.model).__name__
-            logger.info(f"Model loaded successfully: {self.model_type}")
+            logger.info("ML model loaded successfully.")
         except Exception as e:
-            logger.error(f"Failed to load model: {str(e)}")
+            logger.error(f"Failed to load ML model: {str(e)}. Falling back to heuristic-only mode.")
+            self.model_type = "Heuristic-Only"
+            self.is_loaded = False
 
     def predict_proba(self, features: dict) -> float:
         """

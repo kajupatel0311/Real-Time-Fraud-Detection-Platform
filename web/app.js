@@ -98,7 +98,8 @@ async function handleAnalysis(event) {
         await fetchHistory();
 
     } catch (error) {
-        addChatMessage('bot', 'Security engine is currently unavailable. Please try again later.');
+        addChatMessage('bot', 'Network error or backend timeout. Please check your connection and try again.');
+        console.error(error);
     } finally {
         state.isAnalyzing = false;
         dom.chatSubmit.disabled = false;
@@ -120,6 +121,9 @@ function updateResultCard(prediction) {
             <div class="risk-level risk-${prediction.risk_level}">${prediction.risk_level} Risk</div>
             <div class="prob-circle">${riskScore}%</div>
             <p style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;">Behavioral Confidence</p>
+            <div style="margin-top: 8px; font-size: 10px; font-weight: 800; color: ${prediction.scoring_mode === 'Hybrid' ? 'var(--accent)' : '#f59e0b'}; border: 1px solid currentColor; padding: 4px 8px; border-radius: 12px; display: inline-block;">
+                ENGINE: ${prediction.scoring_mode.toUpperCase()}
+            </div>
         </div>
         
         <div style="background-color: var(--bg-main); padding: 20px; border-radius: var(--radius); margin-bottom: 24px; border: 1px solid var(--border);">

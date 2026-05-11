@@ -35,6 +35,7 @@ async def lifespan(app: FastAPI):
     # 1. Check Model
     try:
         model_loader.load()
+        logger.info("Behavioral engine active.")
     except Exception as e:
         logger.error(f"Startup - Model initialization failed: {e}")
 
@@ -42,6 +43,7 @@ async def lifespan(app: FastAPI):
     if hasattr(db, 'client') and db.client is None:
         logger.warning("Startup - MongoDB connection not established. Persistence features may fail.")
 
+    logger.info("API startup completed.")
     yield
     logger.info("Shutting down FraudSentinel services...")
 
@@ -62,9 +64,6 @@ app.add_middleware(
 
 @app.post("/predict", response_model=PredictionResponse, tags=["Analysis"])
 async def predict_transaction(request: TransactionRequest):
-    if not model_loader.is_loaded:
-        raise HTTPException(status_code=503, detail="Risk model not initialized.")
-
     txn_data = request.model_dump()
     features = feature_store.compute_features(txn_data)
     ml_probability = model_loader.predict_proba(features)
@@ -80,9 +79,6 @@ async def predict_transaction(request: TransactionRequest):
 
 @app.post("/chat_predict", response_model=ChatResponse, tags=["Analysis"])
 async def analyze_chat_message(request: ChatRequest):
-    if not model_loader.is_loaded:
-        raise HTTPException(status_code=503, detail="Risk model not initialized.")
-
     parsed_txn = parse_transaction_message(request.message)
     features = feature_store.compute_features(parsed_txn)
     ml_probability = model_loader.predict_proba(features)

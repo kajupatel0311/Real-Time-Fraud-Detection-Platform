@@ -49,6 +49,7 @@ class PredictionResponse(BaseModel):
     final_risk_score: float
     fraud_probability: float  # Alias for final_risk_score for backward compatibility
     confidence_score: int     # Normalized 0-100 score
+    scoring_mode: str = "Hybrid"
     risk_level: str
     action: str
     reasons: List[str]

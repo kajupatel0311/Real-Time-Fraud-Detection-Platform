@@ -32,6 +32,7 @@ class SQLiteDatabase(BaseDatabase):
         # Create directory if it doesn't exist
         os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
         self._initialize_schema()
+        logger.info("Fallback database activated (SQLite).")
 
     def _get_connection(self):
         return sqlite3.connect(self.db_path)
@@ -173,7 +174,7 @@ class MongoDatabase(BaseDatabase):
             self.transactions = self.db.get_collection("transactions")
             self.alerts = self.db.get_collection("alerts")
             self.behavioral_logs = self.db.get_collection("behavioral_logs")
-            logger.info("Successfully connected to MongoDB.")
+            logger.info("MongoDB database connected.")
         except Exception as e:
             logger.error("MongoDB Connection Failed: %s", e)
             self.client = None
