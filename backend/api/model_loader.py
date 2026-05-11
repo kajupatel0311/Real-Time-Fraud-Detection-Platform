@@ -5,7 +5,7 @@ import os
 import logging
 import joblib
 import numpy as np
-from backend.config import MODEL_PATH
+from config import MODEL_PATH
 
 logger = logging.getLogger(__name__)
 

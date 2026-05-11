@@ -7,7 +7,7 @@ from typing import List, Dict, Any
 
 from pymongo import MongoClient
 
-from backend.config import DATABASE_URL, IS_MONGODB, DATA_DIR
+from config import DATABASE_URL, IS_MONGODB, DATA_DIR
 
 logger = logging.getLogger(__name__)
 
