@@ -7,9 +7,6 @@ from contextlib import asynccontextmanager
 from typing import List
 
 from fastapi import FastAPI, Request, HTTPException
-from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 
 from .schemas import (
@@ -52,18 +49,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Static and template configuration
-# Asset paths are resolved relative to the web/ directory
-current_dir = os.path.dirname(__file__)
-web_dir = os.path.abspath(os.path.join(current_dir, "../../web"))
-
-app.mount("/static", StaticFiles(directory=os.path.join(web_dir, "static")), name="static")
-templates = Jinja2Templates(directory=os.path.join(web_dir, "templates"))
-
-@app.get("/", response_class=HTMLResponse, tags=["UI"])
-async def index(request: Request):
-    return templates.TemplateResponse(request=request, name="index.html")
 
 @app.post("/predict", response_model=PredictionResponse, tags=["Analysis"])
 async def predict_transaction(request: TransactionRequest):

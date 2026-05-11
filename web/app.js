@@ -10,6 +10,11 @@ const state = {
     isAnalyzing: false
 };
 
+// Automatically point to Render backend in production, or localhost in development
+const BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+    ? 'http://127.0.0.1:8000' 
+    : 'https://real-time-fraud-detection-platform.onrender.com';
+
 const dom = {
     chatContainer: document.getElementById('chat-container'),
     chatInput: document.getElementById('chat-input'),
@@ -75,7 +80,7 @@ async function handleAnalysis(event) {
     dom.chatSubmit.textContent = 'Analyzing...';
 
     try {
-        const response = await fetch('/chat_predict', {
+        const response = await fetch(`${BASE_URL}/chat_predict`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message })
@@ -152,7 +157,7 @@ function updateResultCard(prediction) {
  */
 async function fetchHistory() {
     try {
-        const response = await fetch('/history');
+        const response = await fetch(`${BASE_URL}/history`);
         const data = await response.json();
         state.transactions = data;
         renderTransactionTable();
@@ -193,7 +198,7 @@ function renderTransactionTable() {
  */
 async function refreshSystemStatus() {
     try {
-        const response = await fetch('/health');
+        const response = await fetch(`${BASE_URL}/health`);
         const data = await response.json();
 
         dom.stats.preds.textContent = data.total_predictions.toLocaleString();
@@ -202,7 +207,7 @@ async function refreshSystemStatus() {
         dom.stats.activeAlerts.textContent = data.total_alerts.toLocaleString();
         dom.stats.uptime.textContent = `${Math.floor(data.uptime_seconds / 60)}m`;
 
-        const alertsResponse = await fetch('/alerts');
+        const alertsResponse = await fetch(`${BASE_URL}/alerts`);
         const alertsData = await alertsResponse.json();
         renderAlertsList(alertsData);
 
