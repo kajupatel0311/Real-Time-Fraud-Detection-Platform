@@ -45,11 +45,11 @@ The web frontend is served statically by the FastAPI backend during local develo
 ## Running Locally
 
 ### Backend & Web Dashboard
-Start the FastAPI server from the `backend` directory:
+Start the FastAPI server from the root directory:
 ```bash
-uvicorn api.main:app --reload --host 127.0.0.1 --port 8000
+python -m uvicorn backend.api.main:app --reload --host 127.0.0.1 --port 8000
 ```
-The web dashboard will be available at `http://127.0.0.1:8000/`.
+The backend API will be available at `http://127.0.0.1:8000/`.
 
 ### Mobile Application
 Start the Expo development server from the `mobile` directory:

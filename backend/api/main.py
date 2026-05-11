@@ -31,7 +31,17 @@ app_start_time = time.time()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("Initializing FraudSentinel services...")
-    model_loader.load()
+    
+    # 1. Check Model
+    try:
+        model_loader.load()
+    except Exception as e:
+        logger.error(f"Startup - Model initialization failed: {e}")
+
+    # 2. Check Database
+    if hasattr(db, 'client') and db.client is None:
+        logger.warning("Startup - MongoDB connection not established. Persistence features may fail.")
+
     yield
     logger.info("Shutting down FraudSentinel services...")
 
