@@ -2,6 +2,7 @@ services:
   - type: web
     name: fraudsentinel-api
     env: python
+    rootDir: backend
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn api.main:app --host 0.0.0.0 --port 10000
     envVars:
@@ -10,7 +11,7 @@ services:
       - key: DATABASE_URL
         value: /opt/render/project/src/data/transactions.db
       - key: MODEL_PATH
-        value: /opt/render/project/src/models/fraud_model.joblib
+        value: /opt/render/project/src/models/fraud_model.pkl
     disk:
       name: fraud-data
       mountPath: /opt/render/project/src/data
